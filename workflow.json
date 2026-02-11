@@ -1,0 +1,295 @@
+{
+  "name": "ai-agent-wikipedia-n8n/",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Self-coded LLM Chain Node",
+        "height": 237,
+        "width": 432
+      },
+      "id": "6f608761-0c12-49ea-b478-a07edbedcb4e",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "9f15f6e1-2d3e-4063-89bb-8a3286d87ba5",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -528,
+        96
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "input",
+              "value": "What is machine learning?"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "06595ee0-854d-4fa6-b606-f752cc24aea3",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -176,
+        96
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "input",
+              "value": "When was Isaac Newton born?"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bf9914f9-8256-4040-a2b5-0dfee56ab518",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -176,
+        480
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "## Self-coded Tool Node",
+        "height": 231,
+        "width": 320.2172923777021
+      },
+      "id": "29d28deb-2014-4e91-856f-41392f949425",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        80,
+        688
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "code": {
+          "supplyData": {
+            "code": "return {\n  name: \"wiki_search\",\n  description: \"Search Wikipedia for a topic\",\n  async call(input) {\n    return `Wikipedia result for: ${input}`;\n  }\n};\n"
+          }
+        },
+        "outputs": {
+          "output": [
+            {
+              "type": "ai_tool"
+            }
+          ]
+        }
+      },
+      "id": "c757d063-1c9a-48b1-a1c2-97a311893a1b",
+      "name": "Custom - Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.code",
+      "position": [
+        176,
+        768
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "code": {
+          "execute": {
+            "code": "const { PromptTemplate } = require('@langchain/core/prompts');\n\nconst query = $input.item.json.input;\n\nconst prompt = PromptTemplate.fromTemplate(query);\n\nconst llm = await this.getInputConnectionData('ai_languageModel', 0);\n\nconst chain = prompt.pipe(llm);\n\nconst output = await chain.invoke({});\n\nreturn [\n  {\n    json: {\n      output: output.content ?? output\n    }\n  }\n];\n"
+          }
+        },
+        "inputs": {
+          "input": [
+            {
+              "type": "main"
+            },
+            {
+              "type": "ai_languageModel",
+              "maxConnections": 1,
+              "required": true
+            }
+          ]
+        },
+        "outputs": {
+          "output": [
+            {
+              "type": "main"
+            }
+          ]
+        }
+      },
+      "id": "e7d3ce87-90bc-46ec-8b16-07a9be50b4de",
+      "name": "Custom - LLM Chain Node",
+      "type": "@n8n/n8n-nodes-langchain.code",
+      "position": [
+        80,
+        96
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "320b9116-010a-49c6-a190-05e68bdedf36",
+      "name": "Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        80,
+        480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": "mistral:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        112,
+        288
+      ],
+      "id": "9946f478-96d7-4eca-ad1c-d5d7c449a341",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "cX2tM9o55GVfg1ib",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "mistral:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        768
+      ],
+      "id": "c70ca981-d1a3-4e66-afa9-a45efdea6dab",
+      "name": "Ollama Chat Model1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "cX2tM9o55GVfg1ib",
+          "name": "Ollama account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Custom - LLM Chain Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Custom - Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Custom - LLM Chain Node",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "2943333c-d5e5-4561-8b2b-36c18c2f1da4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d951e1d05d60fda291441b8e939be3ebefdbdb5e8dfd2ba134898b5de3ceb77b"
+  },
+  "id": "5vega138aMYQLJhaxMEa5",
+  "tags": [
+    {
+      "name": "LangChain - Example",
+      "id": "x5Zde9M4RWRMpzup",
+      "updatedAt": "2026-02-10T20:59:54.850Z",
+      "createdAt": "2026-02-10T20:59:54.850Z"
+    }
+  ]
+}
